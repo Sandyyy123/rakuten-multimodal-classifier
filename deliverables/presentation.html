@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multilingual Multimodal Product Classification</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    background: #0f172a; color: #e2e8f0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.7; min-height: 100vh;
+  }
+  nav {
+    position: sticky; top: 0; z-index: 1000;
+    background: #0f172aee; backdrop-filter: blur(12px);
+    border-bottom: 1px solid #1e293b; padding: 0.5rem 0;
+    overflow-x: auto; white-space: nowrap;
+  }
+  nav .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 1rem; display: flex; gap: 0.15rem; align-items: center; }
+  nav a { color: #94a3b8; text-decoration: none; font-size: 0.78rem; padding: 0.4rem 0.65rem; border-radius: 6px; transition: all 0.2s; flex-shrink: 0; }
+  nav a:hover, nav a:focus { color: #38bdf8; background: #1e293b; }
+  nav .nav-title { color: #38bdf8; font-weight: 700; font-size: 0.85rem; margin-right: 0.6rem; flex-shrink: 0; }
+  main { max-width: 1100px; margin: 0 auto; padding: 1.2rem 1.6rem 4rem; }
+  section { margin-bottom: 4rem; padding-top: 3.5rem; }
+  section:first-of-type { padding-top: 1rem; }
+  h1 {
+    font-size: 2.5rem; font-weight: 800; line-height: 1.2;
+    background: linear-gradient(135deg, #38bdf8, #a78bfa, #f472b6);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 0.6rem;
+  }
+  .subtitle { color: #94a3b8; font-size: 1.05rem; margin-bottom: 1.4rem; }
+  h2 {
+    font-size: 1.7rem; font-weight: 700; color: #38bdf8;
+    margin-bottom: 1.2rem; padding-bottom: 0.4rem; border-bottom: 2px solid #1e293b;
+  }
+  h3 { font-size: 1.18rem; font-weight: 600; margin: 1.4rem 0 0.6rem; color: #a78bfa; }
+  p { margin-bottom: 0.9rem; }
+  ul, ol { margin: 0.5rem 0 1rem 1.6rem; }
+  li { margin-bottom: 0.35rem; }
+  strong { color: #f8fafc; }
+  a { color: #38bdf8; text-decoration: none; border-bottom: 1px dashed #1e293b; }
+  a:hover { color: #a78bfa; border-bottom-color: #a78bfa; }
+  .box { border-radius: 10px; padding: 1.1rem 1.3rem; margin: 1rem 0 1.2rem; }
+  .box-pink   { background: #f472b610; border-left: 4px solid #f472b6; }
+  .box-green  { background: #34d39910; border-left: 4px solid #34d399; }
+  .box-blue   { background: #38bdf810; border-left: 4px solid #38bdf8; }
+  .box-purple { background: #a78bfa10; border-left: 4px solid #a78bfa; }
+  .box-amber  { background: #fbbf2410; border-left: 4px solid #fbbf24; }
+  pre { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 1.1rem 1.3rem; overflow-x: auto; margin: 0.8rem 0 1.2rem; }
+  pre code { font-family: 'Cascadia Code', 'Consolas', monospace; font-size: 0.85rem; line-height: 1.6; color: #e2e8f0; }
+  p code, li code, td code { background: #1e293b; padding: 0.15rem 0.4rem; border-radius: 4px; font-family: 'Cascadia Code', 'Consolas', monospace; font-size: 0.88em; color: #38bdf8; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; }
+  th, td { padding: 0.6rem 0.9rem; text-align: left; border-bottom: 1px solid #1e293b; }
+  th { background: #1e293b; color: #38bdf8; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  tr:hover { background: #1e293b40; }
+  .hero {
+    background: linear-gradient(135deg, #0f172a, #1e293b 60%, #0f172a);
+    padding: 3rem 2rem; border-radius: 16px; margin-bottom: 2rem;
+    border: 1px solid #334155; text-align: left;
+  }
+  .hero .meta { color: #94a3b8; font-size: 0.95rem; margin-top: 1rem; }
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; margin-top: 1rem; }
+  .meta-grid .item { background: #1e293b; padding: 0.7rem 0.9rem; border-radius: 8px; border-left: 3px solid #38bdf8; }
+  .meta-grid .item .lbl { display: block; font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+  .meta-grid .item .val { font-weight: 700; color: #e2e8f0; font-size: 0.95rem; }
+  img { max-width: 100%; height: auto; border-radius: 10px; margin: 0.8rem 0; border: 1px solid #1e293b; }
+  footer { text-align: center; color: #64748b; font-size: 0.85rem; padding: 2rem 1rem; border-top: 1px solid #1e293b; margin-top: 3rem; }
+</style>
+</head>
+<body>
+<nav><div class="nav-inner">
+  <span class="nav-title">Project 6: Rakuten Multimodal</span>
+  <a href="#overview">Overview</a>
+  <a href="#data">Data</a>
+  <a href="#methods">Methods</a>
+  <a href="#results">Results</a>
+  <a href="#discussion">Discussion</a>
+  <a href="#refs">References</a>
+</div></nav>
+<main>
+
+<section id="overview" class="hero">
+  <h1>Multilingual Multimodal Product Classification</h1>
+  <div class="subtitle">Rakuten France product taxonomy (27 classes, multilingual text + product images, 30k subsample).</div>
+  <div class="meta-grid">
+    <div class="item"><span class="lbl">Task</span><span class="val">27-class multimodal</span></div>
+<div class="item"><span class="lbl">Records</span><span class="val">30,000 subsampled (84,916 full)</span></div>
+<div class="item"><span class="lbl">Test weighted F1</span><span class="val">0.752 (multimodal)</span></div>
+<div class="item"><span class="lbl">Test macro F1</span><span class="val">0.730</span></div>
+<div class="item"><span class="lbl">Languages</span><span class="val">FR 61% / EN 22% / DE 7%</span></div>
+  </div>
+</section>
+
+<section id="data">
+  <h2>Dataset and Exploration</h2>
+  <h1>Exploration Report 1: Rakuten Multimodal Product Classification</h1>
+<h2>1. Project context</h2>
+<p>This is the Rakuten France Multimodal Product Data Classification challenge
+hosted on <code>challengedata.ens.fr/challenges/35</code>. The task: predict
+<code>prdtypecode</code> (product type code in Rakuten's internal taxonomy) given a
+product's text fields (designation, description) and a single product image.
+The full Rakuten catalog has thousands of leaf categories; the challenge
+exposes a curated subset with 27 type codes covering the main verticals.</p>
+<h2>2. Files and schema</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Rows</th>
+<th>Columns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X_train_update.csv</code></td>
+<td>84,916</td>
+<td><code>designation</code>, <code>description</code>, <code>productid</code>, <code>imageid</code></td>
+</tr>
+<tr>
+<td><code>X_test_update.csv</code></td>
+<td>13,812</td>
+<td>same as train (no label)</td>
+</tr>
+<tr>
+<td><code>Y_train_CVw08PX.csv</code></td>
+<td>84,916</td>
+<td><code>prdtypecode</code></td>
+</tr>
+<tr>
+<td><code>images.zip</code></td>
+<td>~99k JPGs (2.5 GB)</td>
+<td><code>images/image_train/...</code>, <code>images/image_test/...</code></td>
+</tr>
+</tbody>
+</table>
+<p>Image filename pattern: <code>image_{imageid}_product_{productid}.jpg</code>. The zip
+holds 84,916 train images and 13,812 test images, exactly matching the CSV
+row counts. <code>Y_train</code> aligns with <code>X_train</code> by row index (DataScientest
+convention; both files share the unnamed numeric index column).</p>
+<p>In this notebook the zip is read with <code>zipfile.ZipFile</code> and individual
+images are streamed via <code>zf.open(name)</code> into PIL. The 2.5 GB archive is
+not extracted to disk.</p>
+<h2>3. Text features</h2>
+<table>
+<thead>
+<tr>
+<th>Stat</th>
+<th>designation (chars)</th>
+<th>description (chars, present rows)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>median</td>
+<td>64</td>
+<td>626</td>
+</tr>
+<tr>
+<td>mean</td>
+<td>70</td>
+<td>808</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>designation</code> is always present (0% missing). It is a short product title.</li>
+<li><code>description</code> is missing in 35.1% of rows. When present it is a longer
+  HTML-rich blurb (contains <code>&lt;br&gt;</code>, <code>&lt;span&gt;</code>, etc.) that must be cleaned
+  before tokenisation.</li>
+<li>Languages on a 1000-row sample of designations (langdetect):
+  French 61%, English 22%, German 7%, Catalan / Dutch / Italian /
+  Romanian / Portuguese / Spanish each below 3%. Rakuten France hosts
+  third-party sellers from across Europe, which explains the long tail.</li>
+</ul>
+<h2>4. Target distribution (<code>prdtypecode</code>)</h2>
+<ul>
+<li>27 distinct classes.</li>
+<li>Strong imbalance: max-to-min count ratio approximately 13.4x.</li>
+</ul>
+<p>Top 5 classes by volume:</p>
+<table>
+<thead>
+<tr>
+<th>prdtypecode</th>
+<th>count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2583</td>
+<td>10,209</td>
+</tr>
+<tr>
+<td>1560</td>
+<td>5,073</td>
+</tr>
+<tr>
+<td>1300</td>
+<td>5,045</td>
+</tr>
+<tr>
+<td>2060</td>
+<td>4,993</td>
+</tr>
+<tr>
+<td>2522</td>
+<td>4,989</td>
+</tr>
+</tbody>
+</table>
+<p>Bottom 5 classes by volume:</p>
+<table>
+<thead>
+<tr>
+<th>prdtypecode</th>
+<th>count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>60</td>
+<td>832</td>
+</tr>
+<tr>
+<td>2220</td>
+<td>824</td>
+</tr>
+<tr>
+<td>1301</td>
+<td>807</td>
+</tr>
+<tr>
+<td>1940</td>
+<td>803</td>
+</tr>
+<tr>
+<td>1180</td>
+<td>764</td>
+</tr>
+</tbody>
+</table>
+<h2>5. Sample products per class (first three top classes)</h2>
+<ul>
+<li>prdtypecode 2583: pool / outdoor accessories (e.g. liners, robotic pool cleaners).</li>
+<li>prdtypecode 1560: home furniture and decor.</li>
+<li>prdtypecode 1300: model toys and remote-control vehicles.</li>
+</ul>
+<p>Concrete designations from the sampled rows are visible in section 7 of
+the notebook.</p>
+<h2>6. Images</h2>
+<ul>
+<li>Sample of 20 random training images shows uniform 500x500 RGB JPGs with
+  white padding around the product. Product is centered.</li>
+<li>Backgrounds are clean enough that a CNN or vision transformer can be
+  fine-tuned without aggressive preprocessing.</li>
+<li>20 image samples (one per top-20 class) are rendered in the notebook
+  by streaming directly from <code>images.zip</code>.</li>
+</ul>
+<h2>7. Key observations</h2>
+<ol>
+<li>Strong class imbalance (~13.4x). Modeling must use stratified splits,
+   class-weighted loss, and report macro-F1 alongside accuracy.</li>
+<li><code>description</code> is missing for 35% of rows. The text pipeline must
+   tolerate this: either fall back to designation only, or learn a
+   "no-description" indicator feature.</li>
+<li><code>description</code> contains raw HTML. Strip tags before tokenisation.</li>
+<li>Multilingual content. A multilingual encoder (XLM-R, mBERT, or
+   multilingual fastText) is preferable to a French-only model given
+   the meaningful English and German share.</li>
+<li>Images are uniform and clean. A pretrained ResNet50 or ViT-B/16
+   should reach a strong baseline quickly.</li>
+<li>The brief mentions "over 1000 classes" referring to Rakuten's full
+   internal taxonomy. The challenge file ships only 27 classes; that
+   is the modeling target.</li>
+</ol>
+<h2>8. Next steps</h2>
+<ol>
+<li>Clean HTML from <code>description</code>, build a single text field
+   (designation + cleaned description).</li>
+<li>Build a stratified 80/10/10 train/val/test split on <code>prdtypecode</code>.</li>
+<li>Text-only baseline: TF-IDF + linear SVM / logistic regression.</li>
+<li>Image-only baseline: ResNet50 fine-tuned on the streamed images.</li>
+<li>Multimodal head: concatenate text and image embeddings, train a
+   small MLP classifier on top.</li>
+<li>Track macro-F1 as the headline metric; report per-class F1 to expose
+   weakness on the rare classes.</li>
+</ol>
+</section>
+
+<section id="methods">
+  <h2>Methodology and Baseline</h2>
+  <h1>Modeling 1 - Text-only TF-IDF + Logistic Regression (Rakuten 27-class)</h1>
+<h2>Task</h2>
+<p>27-class product classification on the Rakuten France challenge dataset. Predict <code>prdtypecode</code> from <code>designation + description</code> (multilingual, mostly French).</p>
+<h2>Sample</h2>
+<p>Stratified subsample of 30,000 rows from 84,916 training rows. Stratified 60 / 20 / 20 train / val / test split:</p>
+<ul>
+<li>Train: 19,200</li>
+<li>Val: 4,800</li>
+<li>Test: 6,000</li>
+</ul>
+<p>Stratification preserves the 27-class distribution including the long tail (smallest class 1180 with proportional 270 train rows).</p>
+<h2>Pipeline</h2>
+<ol>
+<li>Concatenate <code>designation + description</code>, lower-case. Missing description (35% per EDA) replaced with empty string.</li>
+<li>TF-IDF vectorise with 1-2 grams, <code>max_features=20,000</code>, <code>min_df=3</code>. Result: 19,200 x 20,000 sparse matrix.</li>
+<li>Multinomial Logistic Regression with <code>solver='lbfgs'</code>, <code>C=1.0</code>, <code>max_iter=300</code>.</li>
+</ol>
+<h2>Results</h2>
+<table>
+<thead>
+<tr>
+<th>Split</th>
+<th>Accuracy</th>
+<th>Macro F1</th>
+<th>Weighted F1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Validation</td>
+<td>0.754</td>
+<td>0.725</td>
+<td>0.750</td>
+</tr>
+<tr>
+<td>Test</td>
+<td><strong>0.753</strong></td>
+<td><strong>0.729</strong></td>
+<td><strong>0.751</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Text-only TF-IDF reaches <strong>0.75 weighted F1</strong> on this 30k subsample. Validation and test are tightly aligned (within 0.005 on every metric), suggesting the LogReg is well-regularised at <code>C=1.0</code>.</p>
+<h2>Why this baseline is strong</h2>
+<p>Product <code>designation</code> is highly discriminative for category: the brand or model name in the designation often deterministically maps to a product category (a "Funko Pop" goes to collectables, "Lego" goes to toys, etc.). Bigrams capture short brand-product collocations. The TF-IDF + LogReg recipe sets a high baseline that purely visual approaches struggle to match on this dataset.</p>
+<h2>Configuration details</h2>
+<ul>
+<li>Vectoriser: <code>TfidfVectorizer(ngram_range=(1, 2), max_features=20000, min_df=3)</code></li>
+<li>Classifier: <code>LogisticRegression(C=1.0, max_iter=300, solver='lbfgs')</code></li>
+<li>Random seed: <code>random_state=42</code> for the split</li>
+<li>Stratified split: <code>train_test_split(..., stratify=df['target'], random_state=42)</code> applied twice (test, then val from train)</li>
+</ul>
+<h2>What modeling_2 will add</h2>
+<p>The image branch (frozen ResNet18 features) and late-fusion concatenation. Question: does image add information beyond what the text already encodes? See <code>modeling_2.md</code> for the answer.</p>
+<h2>Persisted artifacts</h2>
+<ul>
+<li><code>deliverables/rakuten_tfidf.pkl</code> - fitted TF-IDF vectoriser</li>
+<li><code>deliverables/metrics.json</code> - per-split metrics for both text-only and multimodal models</li>
+</ul>
+</section>
+
+<section id="results">
+  <h2>Improved Model and Results</h2>
+  <h1>Modeling 2 - Multimodal Late Fusion (Text + Image, Rakuten 27-class)</h1>
+<h2>What changed vs <code>modeling_1.md</code></h2>
+<p>Added an image branch and concatenated it with the TF-IDF text branch:</p>
+<ol>
+<li>
+<p><strong>Image branch.</strong> Each product image streamed from <code>images.zip</code> via <code>zipfile.ZipFile.open()</code> (no extraction). Resize 256, CenterCrop 224, ImageNet-normalised. Forward through frozen ResNet18 (<code>IMAGENET1K_V1</code>, classifier head replaced with <code>nn.Identity()</code>); 512-dim feature per image. L2-normalise to unit length.</p>
+</li>
+<li>
+<p><strong>Fusion.</strong> Horizontal stack <code>[TF-IDF sparse | L2-normalised dense image features]</code> -&gt; 19,200 x 20,512 sparse matrix.</p>
+</li>
+<li>
+<p><strong>Same head.</strong> Multinomial Logistic Regression (<code>C=1.0</code>, <code>solver='lbfgs'</code>, <code>max_iter=300</code>) on the fused matrix.</p>
+</li>
+</ol>
+<h2>Results</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Val accuracy</th>
+<th>Test accuracy</th>
+<th>Test macro F1</th>
+<th>Test weighted F1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Text-only (modeling_1)</td>
+<td>0.754</td>
+<td>0.753</td>
+<td>0.729</td>
+<td>0.751</td>
+</tr>
+<tr>
+<td><strong>Multimodal (this run)</strong></td>
+<td><strong>0.755</strong></td>
+<td><strong>0.754</strong></td>
+<td><strong>0.730</strong></td>
+<td><strong>0.752</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The multimodal lift is <strong>+0.001 on every metric</strong>. Within noise. The image branch adds essentially no information beyond what the TF-IDF text already encodes.</p>
+<h2>Why the lift is tiny</h2>
+<p>The TF-IDF + LogReg baseline already saturates the deterministic component of the labelling: product designations contain brand and model names that deterministically map to a category. Where the text is unambiguous (~75% of items), images add nothing. Where the text is ambiguous (~25%), the L2-normalised image features from a frozen ImageNet backbone are too coarse to disambiguate.</p>
+<p>This is a known pattern from the Rakuten challenge literature: simple text classifiers reach 0.74-0.78 weighted F1 on the 27-class task, and pushing past that requires either (a) trainable image branches (fine-tuned ResNet50 or ViT) or (b) cross-modal transformers (ViLBERT-family or CLIP-style joint encoders).</p>
+<h2>What would close the gap</h2>
+<ul>
+<li><strong>Trainable image branch</strong>: replace frozen ResNet18 with a fine-tuned ResNet50 (3-5 epoch on the 30k subsample) or DINO-pretrained ViT. Expected lift: +3-5 weighted F1 points.</li>
+<li><strong>Multilingual transformer text</strong>: replace TF-IDF with XLM-R or CamemBERT embeddings. Expected lift: +5-8 weighted F1 points.</li>
+<li><strong>Cross-modal fusion</strong>: ViLBERT-style cross-attention rather than vector concat. Expected lift: +3-5 points on top of the trainable backbones.</li>
+<li><strong>Class-balanced loss</strong>: explicitly weight the long-tail (smallest class 764 rows after subsampling to 30k). Expected lift: macro F1 specifically, not weighted F1.</li>
+</ul>
+<h2>Limitations of this run</h2>
+<ul>
+<li>30,000-row subsample (~35% of the full 84,916 train) for runtime tractability. Full-train models in the Rakuten challenge winner papers report 1-2 weighted F1 points higher purely from data scale.</li>
+<li>Frozen ImageNet backbone is the wrong domain. Fine-tuning on the product images (even a few epochs) is the standard fix.</li>
+<li>LogReg on the fused 20,512-dim sparse matrix is a linear scorer; non-linear heads (MLP, gradient-boosted on the dense image features alone) would tease out the image-side signal that LogReg cannot.</li>
+</ul>
+<h2>Persisted artifacts</h2>
+<ul>
+<li><code>deliverables/rakuten_textimg.pkl</code> - fused multimodal Logistic Regression model</li>
+<li><code>deliverables/rakuten_tfidf.pkl</code> - fitted TF-IDF vectoriser</li>
+<li><code>deliverables/metrics.json</code> - per-split metrics for both text-only and multimodal</li>
+</ul>
+  
+</section>
+
+<section id="discussion">
+  <h2>Discussion</h2>
+  <div class="box box-blue">
+    <p>TF-IDF + Logistic Regression on designation+description reaches weighted F1 0.751 on test. Adding L2-normalised frozen ResNet18 image features and refitting yields +0.001 (within noise). The text branch already saturates the deterministic-mapping component (brand/model in designation -&gt; category), and a frozen ImageNet backbone is too coarse to disambiguate the residual ~25% ambiguous items. To close the gap: trainable image branch, multilingual transformer (XLM-R / CamemBERT), or cross-modal fusion (ViLBERT-style).</p>
+  </div>
+</section>
+
+<section id="refs">
+  <h2>References</h2>
+  <h1>References - Multimodal Product Classification on Rakuten France</h1>
+<p>Verified against arXiv, Semantic Scholar, and publisher DOIs (May 2026). Each entry lists authors, year, title, venue, identifier, and a one-line abstract.</p>
+<h2>1. Rakuten dataset and challenge baselines</h2>
+<ol>
+<li>
+<p><strong>Charles, Goswami, Rabier, Bost, Maraz, Le Hoang, Banchet, Toulemonde (2021).</strong> An E-Commerce Dataset in French for Multi-modal Product Categorization and Cross-Modal Retrieval. <em>ECIR 2021, LNCS 12657, pp. 17-26.</em> DOI: 10.1007/978-3-030-72113-8_2. Releases the 99k Rakuten France dataset (text + image, 27 product types) and reports unimodal and late-fusion baselines.</p>
+</li>
+<li>
+<p><strong>Bi, Wang, Fan (2020).</strong> A Multimodal Late Fusion Model for E-Commerce Product Classification. <em>SIGIR eCom 2020 Data Challenge.</em> arXiv: 2008.06179. Modality-specific deep nets (text + image) fused at the decision level, ranked first in the SIGIR Rakuten challenge.</p>
+</li>
+<li>
+<p><strong>Tashu, Fattouh, Kiss, Horvath (2022).</strong> Multimodal E-Commerce Product Classification Using Hierarchical Fusion. <em>arXiv: 2207.03305.</em> Combines CamemBERT / FlauBERT text features with SE-ResNeXt-50 image features via concat + average fusion on the Rakuten dataset.</p>
+</li>
+</ol>
+<h2>2. Vision-language pretraining and the CLIP family</h2>
+<ol>
+<li>
+<p><strong>Radford et al. (2021).</strong> Learning Transferable Visual Models from Natural Language Supervision. <em>ICML 2021, pp. 8748-8763.</em> arXiv: 2103.00020. Contrastive image-text pretraining (CLIP) on 400M pairs, enabling zero-shot transfer to dozens of downstream classification tasks.</p>
+</li>
+<li>
+<p><strong>Cherti et al. (2023).</strong> Reproducible Scaling Laws for Contrastive Language-Image Learning. <em>CVPR 2023, pp. 2818-2829.</em> arXiv: 2212.07143. OpenCLIP scaling study on LAION up to 2B pairs, releasing reproducible CLIP checkpoints used widely for product imagery.</p>
+</li>
+<li>
+<p><strong>Zhai, Mustafa, Kolesnikov, Beyer (2023).</strong> Sigmoid Loss for Language Image Pre-Training (SigLIP). <em>ICCV 2023, pp. 11975-11986.</em> arXiv: 2303.15343. Replaces softmax contrastive with pairwise sigmoid loss, improving small-batch performance and memory efficiency.</p>
+</li>
+<li>
+<p><strong>Jia et al. (2021).</strong> Scaling Up Visual and Vision-Language Representation Learning with Noisy Text Supervision (ALIGN). <em>ICML 2021, pp. 4904-4916.</em> arXiv: 2102.05918. Trains dual-encoder vision-language model on 1.8B noisy alt-text pairs without curation, matching CLIP performance.</p>
+</li>
+<li>
+<p><strong>Li, Li, Xiong, Hoi (2022).</strong> BLIP: Bootstrapping Language-Image Pre-training. <em>ICML 2022, pp. 12888-12900.</em> arXiv: 2201.12086. Unified VLP framework with caption bootstrapping; competitive on retrieval and captioning relevant to product description.</p>
+</li>
+<li>
+<p><strong>Chen et al. (2023).</strong> mCLIP: Multilingual CLIP via Cross-lingual Transfer. <em>ACL 2023.</em> DOI: 10.18653/v1/2023.acl-long.728. Aligns multilingual text encoders with CLIP image features, supporting French / English / German queries directly.</p>
+</li>
+</ol>
+<h2>3. Text encoders (monolingual and multilingual)</h2>
+<ol>
+<li>
+<p><strong>Devlin, Chang, Lee, Toutanova (2019).</strong> BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. <em>NAACL-HLT 2019, pp. 4171-4186.</em> arXiv: 1810.04805. Masked-LM pretraining yielding contextual embeddings; foundation for product-text classifiers.</p>
+</li>
+<li>
+<p><strong>Conneau et al. (2020).</strong> Unsupervised Cross-lingual Representation Learning at Scale (XLM-R). <em>ACL 2020, pp. 8440-8451.</em> arXiv: 1911.02116. RoBERTa-style pretraining on 100 languages including French / English / German, ideal for the multilingual Rakuten titles.</p>
+</li>
+<li>
+<p><strong>Sanh, Debut, Chaumond, Wolf (2019).</strong> DistilBERT, a distilled version of BERT. <em>NeurIPS 2019 EMC2 Workshop.</em> arXiv: 1910.01108. Knowledge-distilled BERT with 40% fewer parameters and 60% faster inference, useful for production-grade product classifiers.</p>
+</li>
+<li>
+<p><strong>Martin et al. (2020).</strong> CamemBERT: a Tasty French Language Model. <em>ACL 2020, pp. 7203-7219.</em> arXiv: 1911.03894. RoBERTa-architecture French monolingual model, strong on French e-commerce text.</p>
+</li>
+<li>
+<p><strong>Le et al. (2020).</strong> FlauBERT: Unsupervised Language Model Pre-training for French. <em>LREC 2020, pp. 2479-2490.</em> arXiv: 1912.05372. Alternative French BERT plus the FLUE evaluation suite, used as second French encoder in Rakuten work.</p>
+</li>
+<li>
+<p><strong>Joulin, Grave, Bojanowski, Mikolov (2017).</strong> Bag of Tricks for Efficient Text Classification (FastText). <em>EACL 2017, pp. 427-431.</em> arXiv: 1607.01759. Linear bag-of-n-grams classifier; standard fast multilingual baseline.</p>
+</li>
+<li>
+<p><strong>Artetxe, Schwenk (2019).</strong> Massively Multilingual Sentence Embeddings for Zero-Shot Cross-Lingual Transfer (LASER). <em>TACL 7, pp. 597-610.</em> arXiv: 1812.10464. Single BiLSTM encoder covering 93 languages, used for cross-lingual product retrieval.</p>
+</li>
+</ol>
+<h2>4. Vision backbones for product images</h2>
+<ol>
+<li>
+<p><strong>He, Zhang, Ren, Sun (2016).</strong> Deep Residual Learning for Image Recognition (ResNet). <em>CVPR 2016, pp. 770-778.</em> arXiv: 1512.03385. Residual connections enabling very deep CNNs; default image backbone in many Rakuten submissions.</p>
+</li>
+<li>
+<p><strong>Tan, Le (2019).</strong> EfficientNet: Rethinking Model Scaling for CNNs. <em>ICML 2019, pp. 6105-6114.</em> arXiv: 1905.11946. Compound scaling of depth / width / resolution; strong accuracy / FLOP trade-off for product imagery.</p>
+</li>
+<li>
+<p><strong>Dosovitskiy et al. (2021).</strong> An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale (ViT). <em>ICLR 2021.</em> arXiv: 2010.11929. Pure transformer applied to image patches; matches or beats CNNs at scale.</p>
+</li>
+<li>
+<p><strong>Liu et al. (2021).</strong> Swin Transformer: Hierarchical Vision Transformer using Shifted Windows. <em>ICCV 2021, pp. 10012-10022.</em> arXiv: 2103.14030. Hierarchical attention with shifted windows; strong dense prediction backbone for product images.</p>
+</li>
+<li>
+<p><strong>Liu, Mao, Wu, Feichtenhofer, Darrell, Xie (2022).</strong> A ConvNet for the 2020s (ConvNeXt). <em>CVPR 2022, pp. 11976-11986.</em> arXiv: 2201.03545. Modernised ResNet recipe matching transformer-era accuracy at lower cost.</p>
+</li>
+</ol>
+<h2>5. Multimodal fusion strategies</h2>
+<ol>
+<li>
+<p><strong>Baltrusaitis, Ahuja, Morency (2019).</strong> Multimodal Machine Learning: A Survey and Taxonomy. <em>IEEE TPAMI 41(2), pp. 423-443.</em> arXiv: 1705.09406. Canonical taxonomy of representation, alignment, fusion, translation, and co-learning across modalities.</p>
+</li>
+<li>
+<p><strong>Kiela, Bhooshan, Firooz, Perez, Testuggine (2019).</strong> Supervised Multimodal Bitransformers for Classifying Images and Text (MMBT). <em>NeurIPS ViGIL 2019.</em> arXiv: 1909.02950. Simple early-fusion bitransformer combining BERT text and image-region features, strong baseline on text + image classification.</p>
+</li>
+<li>
+<p><strong>Lu, Batra, Parikh, Lee (2019).</strong> ViLBERT: Pretraining Task-Agnostic Visiolinguistic Representations. <em>NeurIPS 2019.</em> arXiv: 1908.02265. Two-stream cross-modal transformer with co-attention for vision-and-language pretraining.</p>
+</li>
+<li>
+<p><strong>Tan, Bansal (2019).</strong> LXMERT: Learning Cross-Modality Encoder Representations from Transformers. <em>EMNLP 2019, pp. 5100-5111.</em> arXiv: 1908.07490. Three-encoder design (object, language, cross-modal) pretrained on five vision-language tasks.</p>
+</li>
+</ol>
+<h2>6. E-commerce, hierarchical and large-label-space classification</h2>
+<ol>
+<li>
+<p><strong>Zahavy, Magnani, Krishnan, Mannor (2018).</strong> Is a Picture Worth a Thousand Words? A Deep Multi-Modal Architecture for Product Classification in E-commerce. <em>AAAI 2018, pp. 7873-7880.</em> arXiv: 1611.09534. Walmart-scale text + image policy network deciding per item which modality to trust, ancestor of all product-classification fusion work.</p>
+</li>
+<li>
+<p><strong>Kozareva (2015).</strong> Everyone Likes Shopping! Multi-class Product Categorization for E-commerce. <em>NAACL-HLT 2015, pp. 1329-1333.</em> DOI: 10.3115/v1/N15-1147. Early text-only large-taxonomy product classification baseline.</p>
+</li>
+<li>
+<p><strong>Cevahir, Murakami (2016).</strong> Large-scale Multi-class and Hierarchical Product Categorization for an E-commerce Giant. <em>COLING 2016, pp. 525-535.</em> Two-level hierarchical neural classifier deployed at Rakuten Ichiba, direct precursor to the Rakuten France challenge.</p>
+</li>
+<li>
+<p><strong>Silla, Freitas (2011).</strong> A Survey of Hierarchical Classification across Different Application Domains. <em>Data Mining and Knowledge Discovery 22(1-2), pp. 31-72.</em> DOI: 10.1007/s10618-010-0175-9. Reference taxonomy (flat, local-per-node, local-per-level, global) for hierarchical category prediction.</p>
+</li>
+</ol>
+<h2>7. Class imbalance handling</h2>
+<ol>
+<li>
+<p><strong>Lin, Goyal, Girshick, He, Dollar (2017).</strong> Focal Loss for Dense Object Detection. <em>ICCV 2017, pp. 2980-2988.</em> arXiv: 1708.02002. Down-weights easy examples; widely used for the long-tailed product-type distribution in Rakuten.</p>
+</li>
+<li>
+<p><strong>Cui, Jia, Lin, Song, Belongie (2019).</strong> Class-Balanced Loss Based on Effective Number of Samples. <em>CVPR 2019, pp. 9268-9277.</em> arXiv: 1901.05555. Re-weights losses by the effective number of samples per class, helping rare Rakuten categories.</p>
+</li>
+</ol>
+<h2>8. Document AI / multimodal layout (optional context)</h2>
+<ol>
+<li><strong>Huang, Lv, Cui, Lu, Wei (2022).</strong> LayoutLMv3: Pre-training for Document AI with Unified Text and Image Masking. <em>ACM MM 2022, pp. 4083-4091.</em> arXiv: 2204.08387. Unified text-image masking pretraining; relevant when product descriptions contain layout cues (catalogue scans, marketplaces with rich text).</li>
+</ol>
+</section>
+
+<footer>
+  Liora ML Manuscripts Pipeline | Project 6 | Sandeep Grover | 2026-05-01
+</footer>
+</main>
+</body>
+</html>

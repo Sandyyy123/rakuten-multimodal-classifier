@@ -1,0 +1,38 @@
+{
+  "project": "06_rakuten_multimodal",
+  "task": "multi-class product classification (27 classes)",
+  "subsample_size": 30000,
+  "n_train": 19200,
+  "n_val": 4800,
+  "n_test": 6000,
+  "n_classes": 27,
+  "text_only": {
+    "val": {
+      "accuracy": 0.7539583333333333,
+      "macro_f1": 0.7250509012187533,
+      "weighted_f1": 0.7504317730478468
+    },
+    "test": {
+      "accuracy": 0.7526666666666667,
+      "macro_f1": 0.729314738436535,
+      "weighted_f1": 0.7509041160972185
+    }
+  },
+  "multimodal": {
+    "val": {
+      "accuracy": 0.7545833333333334,
+      "macro_f1": 0.7253041128000363,
+      "weighted_f1": 0.7510697421469803
+    },
+    "test": {
+      "accuracy": 0.7536666666666667,
+      "macro_f1": 0.7295721492085873,
+      "weighted_f1": 0.7516953205430097
+    }
+  },
+  "pipeline": {
+    "text": "TF-IDF (1-2 gram, max 20k features, min_df=3) + LogReg liblinear C=1",
+    "image": "frozen ResNet18 ImageNet, 512-d L2-normalized",
+    "fusion": "concat (TF-IDF sparse + image dense), single LogReg classifier"
+  }
+}

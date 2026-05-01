@@ -1,0 +1,368 @@
+% References for Multimodal Product Classification on the Rakuten France dataset
+% All entries verified against arXiv / Semantic Scholar / publisher DOI (May 2026).
+
+% =============================================================================
+% 1. Rakuten dataset and challenge baselines
+% =============================================================================
+
+@inproceedings{charles2021rakuten,
+  author    = {Charles, Yannick and Goswami, Parantapa and Rabier, Christophe and Bost, Xavier and Maraz, Mahima and Le Hoang, Thanh and Banchet, Romain and Toulemonde, Thomas},
+  title     = {An {E-Commerce} Dataset in {French} for Multi-modal Product Categorization and Cross-Modal Retrieval},
+  booktitle = {Advances in Information Retrieval ({ECIR} 2021)},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {12657},
+  pages     = {17--26},
+  year      = {2021},
+  publisher = {Springer},
+  doi       = {10.1007/978-3-030-72113-8_2}
+}
+
+@article{bi2020latefusion,
+  author  = {Bi, Ye and Wang, Shuo and Fan, Zhongrui},
+  title   = {A Multimodal Late Fusion Model for {E-Commerce} Product Classification},
+  journal = {arXiv preprint arXiv:2008.06179},
+  year    = {2020},
+  eprint  = {2008.06179},
+  archivePrefix = {arXiv},
+  note    = {SIGIR eCom 2020 Data Challenge}
+}
+
+@article{tashu2022hierarchical,
+  author  = {Tashu, Tsegaye Misikir and Fattouh, Sara and Kiss, Peter and Horvath, Tomas},
+  title   = {Multimodal {E-Commerce} Product Classification Using Hierarchical Fusion},
+  journal = {arXiv preprint arXiv:2207.03305},
+  year    = {2022},
+  eprint  = {2207.03305},
+  archivePrefix = {arXiv}
+}
+
+% =============================================================================
+% 2. Vision-language pretraining and CLIP family
+% =============================================================================
+
+@inproceedings{radford2021clip,
+  author    = {Radford, Alec and Kim, Jong Wook and Hallacy, Chris and Ramesh, Aditya and Goh, Gabriel and Agarwal, Sandhini and Sastry, Girish and Askell, Amanda and Mishkin, Pamela and Clark, Jack and Krueger, Gretchen and Sutskever, Ilya},
+  title     = {Learning Transferable Visual Models from Natural Language Supervision},
+  booktitle = {Proceedings of the 38th International Conference on Machine Learning ({ICML})},
+  pages     = {8748--8763},
+  year      = {2021},
+  eprint    = {2103.00020},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{cherti2023openclip,
+  author    = {Cherti, Mehdi and Beaumont, Romain and Wightman, Ross and Wortsman, Mitchell and Ilharco, Gabriel and Gordon, Cade and Schuhmann, Christoph and Schmidt, Ludwig and Jitsev, Jenia},
+  title     = {Reproducible Scaling Laws for Contrastive Language-Image Learning},
+  booktitle = {Proceedings of the {IEEE/CVF} Conference on Computer Vision and Pattern Recognition ({CVPR})},
+  pages     = {2818--2829},
+  year      = {2023},
+  eprint    = {2212.07143},
+  archivePrefix = {arXiv},
+  doi       = {10.1109/CVPR52729.2023.00276}
+}
+
+@inproceedings{zhai2023siglip,
+  author    = {Zhai, Xiaohua and Mustafa, Basil and Kolesnikov, Alexander and Beyer, Lucas},
+  title     = {Sigmoid Loss for Language Image Pre-Training},
+  booktitle = {Proceedings of the {IEEE/CVF} International Conference on Computer Vision ({ICCV})},
+  pages     = {11975--11986},
+  year      = {2023},
+  eprint    = {2303.15343},
+  archivePrefix = {arXiv},
+  doi       = {10.1109/ICCV51070.2023.01100}
+}
+
+@inproceedings{jia2021align,
+  author    = {Jia, Chao and Yang, Yinfei and Xia, Ye and Chen, Yi-Ting and Parekh, Zarana and Pham, Hieu and Le, Quoc V. and Sung, Yun-Hsuan and Li, Zhen and Duerig, Tom},
+  title     = {Scaling Up Visual and Vision-Language Representation Learning with Noisy Text Supervision},
+  booktitle = {Proceedings of the 38th International Conference on Machine Learning ({ICML})},
+  pages     = {4904--4916},
+  year      = {2021},
+  eprint    = {2102.05918},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{li2022blip,
+  author    = {Li, Junnan and Li, Dongxu and Xiong, Caiming and Hoi, Steven},
+  title     = {{BLIP}: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation},
+  booktitle = {Proceedings of the 39th International Conference on Machine Learning ({ICML})},
+  pages     = {12888--12900},
+  year      = {2022},
+  eprint    = {2201.12086},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{chen2023multilingual_clip,
+  author    = {Chen, Guanhua and Hou, Lu and Chen, Yun and Dai, Wenliang and Shang, Lifeng and Jiang, Xin and Liu, Qun and Pan, Jia and Wang, Wenping},
+  title     = {{mCLIP}: Multilingual {CLIP} via Cross-lingual Transfer},
+  booktitle = {Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics ({ACL})},
+  year      = {2023},
+  doi       = {10.18653/v1/2023.acl-long.728}
+}
+
+% =============================================================================
+% 3. Text encoders (monolingual and multilingual)
+% =============================================================================
+
+@inproceedings{devlin2019bert,
+  author    = {Devlin, Jacob and Chang, Ming-Wei and Lee, Kenton and Toutanova, Kristina},
+  title     = {{BERT}: Pre-training of Deep Bidirectional Transformers for Language Understanding},
+  booktitle = {Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics ({NAACL-HLT})},
+  pages     = {4171--4186},
+  year      = {2019},
+  eprint    = {1810.04805},
+  archivePrefix = {arXiv},
+  doi       = {10.18653/v1/N19-1423}
+}
+
+@inproceedings{conneau2020xlmr,
+  author    = {Conneau, Alexis and Khandelwal, Kartikay and Goyal, Naman and Chaudhary, Vishrav and Wenzek, Guillaume and Guzm\'{a}n, Francisco and Grave, Edouard and Ott, Myle and Zettlemoyer, Luke and Stoyanov, Veselin},
+  title     = {Unsupervised Cross-lingual Representation Learning at Scale},
+  booktitle = {Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics ({ACL})},
+  pages     = {8440--8451},
+  year      = {2020},
+  eprint    = {1911.02116},
+  archivePrefix = {arXiv},
+  doi       = {10.18653/v1/2020.acl-main.747}
+}
+
+@article{sanh2019distilbert,
+  author  = {Sanh, Victor and Debut, Lysandre and Chaumond, Julien and Wolf, Thomas},
+  title   = {{DistilBERT}, a distilled version of {BERT}: smaller, faster, cheaper and lighter},
+  journal = {arXiv preprint arXiv:1910.01108},
+  year    = {2019},
+  eprint  = {1910.01108},
+  archivePrefix = {arXiv},
+  note    = {NeurIPS 2019 EMC2 Workshop}
+}
+
+@inproceedings{martin2020camembert,
+  author    = {Martin, Louis and Muller, Benjamin and Ortiz Su\'{a}rez, Pedro Javier and Dupont, Yoann and Romary, Laurent and de la Clergerie, \'{E}ric Villemonte and Seddah, Djam\'{e} and Sagot, Beno\^{i}t},
+  title     = {{CamemBERT}: a Tasty {French} Language Model},
+  booktitle = {Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics ({ACL})},
+  pages     = {7203--7219},
+  year      = {2020},
+  eprint    = {1911.03894},
+  archivePrefix = {arXiv},
+  doi       = {10.18653/v1/2020.acl-main.645}
+}
+
+@inproceedings{le2020flaubert,
+  author    = {Le, Hang and Vial, Lo\"{i}c and Frej, Jibril and Segonne, Vincent and Coavoux, Maximin and Lecouteux, Benjamin and Allauzen, Alexandre and Crabb\'{e}, Beno\^{i}t and Besacier, Laurent and Schwab, Didier},
+  title     = {{FlauBERT}: Unsupervised Language Model Pre-training for {French}},
+  booktitle = {Proceedings of the 12th Language Resources and Evaluation Conference ({LREC})},
+  pages     = {2479--2490},
+  year      = {2020},
+  eprint    = {1912.05372},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{joulin2017fasttext,
+  author    = {Joulin, Armand and Grave, Edouard and Bojanowski, Piotr and Mikolov, Tomas},
+  title     = {Bag of Tricks for Efficient Text Classification},
+  booktitle = {Proceedings of the 15th Conference of the European Chapter of the Association for Computational Linguistics ({EACL})},
+  pages     = {427--431},
+  year      = {2017},
+  eprint    = {1607.01759},
+  archivePrefix = {arXiv},
+  doi       = {10.18653/v1/E17-2068}
+}
+
+@article{artetxe2019laser,
+  author  = {Artetxe, Mikel and Schwenk, Holger},
+  title   = {Massively Multilingual Sentence Embeddings for Zero-Shot Cross-Lingual Transfer and Beyond},
+  journal = {Transactions of the Association for Computational Linguistics},
+  volume  = {7},
+  pages   = {597--610},
+  year    = {2019},
+  eprint  = {1812.10464},
+  archivePrefix = {arXiv},
+  doi     = {10.1162/tacl_a_00288}
+}
+
+% =============================================================================
+% 4. Vision backbones
+% =============================================================================
+
+@inproceedings{he2016resnet,
+  author    = {He, Kaiming and Zhang, Xiangyu and Ren, Shaoqing and Sun, Jian},
+  title     = {Deep Residual Learning for Image Recognition},
+  booktitle = {Proceedings of the {IEEE} Conference on Computer Vision and Pattern Recognition ({CVPR})},
+  pages     = {770--778},
+  year      = {2016},
+  eprint    = {1512.03385},
+  archivePrefix = {arXiv},
+  doi       = {10.1109/CVPR.2016.90}
+}
+
+@inproceedings{tan2019efficientnet,
+  author    = {Tan, Mingxing and Le, Quoc V.},
+  title     = {{EfficientNet}: Rethinking Model Scaling for Convolutional Neural Networks},
+  booktitle = {Proceedings of the 36th International Conference on Machine Learning ({ICML})},
+  pages     = {6105--6114},
+  year      = {2019},
+  eprint    = {1905.11946},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{dosovitskiy2021vit,
+  author    = {Dosovitskiy, Alexey and Beyer, Lucas and Kolesnikov, Alexander and Weissenborn, Dirk and Zhai, Xiaohua and Unterthiner, Thomas and Dehghani, Mostafa and Minderer, Matthias and Heigold, Georg and Gelly, Sylvain and Uszkoreit, Jakob and Houlsby, Neil},
+  title     = {An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale},
+  booktitle = {International Conference on Learning Representations ({ICLR})},
+  year      = {2021},
+  eprint    = {2010.11929},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{liu2021swin,
+  author    = {Liu, Ze and Lin, Yutong and Cao, Yue and Hu, Han and Wei, Yixuan and Zhang, Zheng and Lin, Stephen and Guo, Baining},
+  title     = {{Swin Transformer}: Hierarchical Vision Transformer using Shifted Windows},
+  booktitle = {Proceedings of the {IEEE/CVF} International Conference on Computer Vision ({ICCV})},
+  pages     = {10012--10022},
+  year      = {2021},
+  eprint    = {2103.14030},
+  archivePrefix = {arXiv},
+  doi       = {10.1109/ICCV48922.2021.00986}
+}
+
+@inproceedings{liu2022convnext,
+  author    = {Liu, Zhuang and Mao, Hanzi and Wu, Chao-Yuan and Feichtenhofer, Christoph and Darrell, Trevor and Xie, Saining},
+  title     = {A {ConvNet} for the 2020s},
+  booktitle = {Proceedings of the {IEEE/CVF} Conference on Computer Vision and Pattern Recognition ({CVPR})},
+  pages     = {11976--11986},
+  year      = {2022},
+  eprint    = {2201.03545},
+  archivePrefix = {arXiv},
+  doi       = {10.1109/CVPR52688.2022.01167}
+}
+
+% =============================================================================
+% 5. Multimodal fusion strategies
+% =============================================================================
+
+@article{baltrusaitis2019multimodal_survey,
+  author  = {Baltru\v{s}aitis, Tadas and Ahuja, Chaitanya and Morency, Louis-Philippe},
+  title   = {Multimodal Machine Learning: A Survey and Taxonomy},
+  journal = {{IEEE} Transactions on Pattern Analysis and Machine Intelligence},
+  volume  = {41},
+  number  = {2},
+  pages   = {423--443},
+  year    = {2019},
+  eprint  = {1705.09406},
+  archivePrefix = {arXiv},
+  doi     = {10.1109/TPAMI.2018.2798607}
+}
+
+@inproceedings{kiela2018efficient_fusion,
+  author    = {Kiela, Douwe and Bhooshan, Suvrat and Firooz, Hamed and Perez, Ethan and Testuggine, Davide},
+  title     = {Supervised Multimodal Bitransformers for Classifying Images and Text},
+  booktitle = {NeurIPS Workshop on Visually Grounded Interaction and Language ({ViGIL})},
+  year      = {2019},
+  eprint    = {1909.02950},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{lu2019vilbert,
+  author    = {Lu, Jiasen and Batra, Dhruv and Parikh, Devi and Lee, Stefan},
+  title     = {{ViLBERT}: Pretraining Task-Agnostic Visiolinguistic Representations for Vision-and-Language Tasks},
+  booktitle = {Advances in Neural Information Processing Systems ({NeurIPS})},
+  year      = {2019},
+  eprint    = {1908.02265},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{tan2019lxmert,
+  author    = {Tan, Hao and Bansal, Mohit},
+  title     = {{LXMERT}: Learning Cross-Modality Encoder Representations from Transformers},
+  booktitle = {Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing ({EMNLP})},
+  pages     = {5100--5111},
+  year      = {2019},
+  eprint    = {1908.07490},
+  archivePrefix = {arXiv},
+  doi       = {10.18653/v1/D19-1514}
+}
+
+% =============================================================================
+% 6. E-commerce, hierarchical and large-label-space classification
+% =============================================================================
+
+@inproceedings{zahavy2018ecommerce_picture_worth,
+  author    = {Zahavy, Tom and Magnani, Alessandro and Krishnan, Abhinandan and Mannor, Shie},
+  title     = {Is a Picture Worth a Thousand Words? {A} Deep Multi-Modal Architecture for Product Classification in {E-commerce}},
+  booktitle = {Proceedings of the {AAAI} Conference on Artificial Intelligence},
+  volume    = {32},
+  pages     = {7873--7880},
+  year      = {2018},
+  eprint    = {1611.09534},
+  archivePrefix = {arXiv},
+  doi       = {10.1609/aaai.v32i1.11419}
+}
+
+@inproceedings{kozareva2015ecommerce_taxonomy,
+  author    = {Kozareva, Zornitsa},
+  title     = {Everyone Likes Shopping! Multi-class Product Categorization for {E-commerce}},
+  booktitle = {Proceedings of the 2015 Conference of the North American Chapter of the Association for Computational Linguistics ({NAACL-HLT})},
+  pages     = {1329--1333},
+  year      = {2015},
+  doi       = {10.3115/v1/N15-1147}
+}
+
+@inproceedings{cevahir2016ecommerce_largescale,
+  author    = {Cevahir, Ali and Murakami, Koji},
+  title     = {Large-scale Multi-class and Hierarchical Product Categorization for an {E-commerce} Giant},
+  booktitle = {Proceedings of {COLING} 2016},
+  pages     = {525--535},
+  year      = {2016}
+}
+
+@article{silla2011hierarchical_survey,
+  author  = {Silla, Carlos N. and Freitas, Alex A.},
+  title   = {A Survey of Hierarchical Classification across Different Application Domains},
+  journal = {Data Mining and Knowledge Discovery},
+  volume  = {22},
+  number  = {1--2},
+  pages   = {31--72},
+  year    = {2011},
+  doi     = {10.1007/s10618-010-0175-9}
+}
+
+% =============================================================================
+% 7. Class imbalance
+% =============================================================================
+
+@inproceedings{lin2017focal,
+  author    = {Lin, Tsung-Yi and Goyal, Priya and Girshick, Ross and He, Kaiming and Doll\'{a}r, Piotr},
+  title     = {Focal Loss for Dense Object Detection},
+  booktitle = {Proceedings of the {IEEE} International Conference on Computer Vision ({ICCV})},
+  pages     = {2980--2988},
+  year      = {2017},
+  eprint    = {1708.02002},
+  archivePrefix = {arXiv},
+  doi       = {10.1109/ICCV.2017.324}
+}
+
+@inproceedings{cui2019class_balanced,
+  author    = {Cui, Yin and Jia, Menglin and Lin, Tsung-Yi and Song, Yang and Belongie, Serge},
+  title     = {Class-Balanced Loss Based on Effective Number of Samples},
+  booktitle = {Proceedings of the {IEEE/CVF} Conference on Computer Vision and Pattern Recognition ({CVPR})},
+  pages     = {9268--9277},
+  year      = {2019},
+  eprint    = {1901.05555},
+  archivePrefix = {arXiv},
+  doi       = {10.1109/CVPR.2019.00949}
+}
+
+% =============================================================================
+% 8. Document AI / LayoutLM family (optional context)
+% =============================================================================
+
+@inproceedings{huang2022layoutlmv3,
+  author    = {Huang, Yupan and Lv, Tengchao and Cui, Lei and Lu, Yutong and Wei, Furu},
+  title     = {{LayoutLMv3}: Pre-training for Document {AI} with Unified Text and Image Masking},
+  booktitle = {Proceedings of the 30th {ACM} International Conference on Multimedia ({MM})},
+  pages     = {4083--4091},
+  year      = {2022},
+  eprint    = {2204.08387},
+  archivePrefix = {arXiv},
+  doi       = {10.1145/3503161.3548112}
+}
