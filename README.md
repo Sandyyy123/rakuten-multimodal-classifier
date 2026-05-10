@@ -1,4 +1,4 @@
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue) ![PyTorch](https://img.shields.io/badge/PyTorch-multimodal-orange) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue) ![PyTorch](https://img.shields.io/badge/PyTorch-multimodal-orange) ![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-lightgrey)
 
 # Rakuten E-commerce Multimodal Product Classification
 
