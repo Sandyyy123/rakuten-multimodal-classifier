@@ -14,7 +14,7 @@ cells = []
 cells.append(nbf.v4.new_markdown_cell(
     "# Rakuten Multimodal Product Classification: Modeling\n"
     "\n"
-    "**Project:** Liora #6 - Rakuten France Multimodal Product Data Classification.\n"
+    "
     "\n"
     "**Goal:** classify `prdtypecode` (27 classes) on a 30k stratified subsample of\n"
     "the 84,916-row training set. Two models:\n"
