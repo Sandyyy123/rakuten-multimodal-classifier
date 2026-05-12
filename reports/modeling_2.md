@@ -8,7 +8,7 @@ Added an image branch and concatenated it with the TF-IDF text branch:
 
 2. **Fusion.** Horizontal stack `[TF-IDF sparse | L2-normalised dense image features]` -> 19,200 x 20,512 sparse matrix.
 
-3. **Same head.** Multinomial Logistic Regression (`C=1.0`, `solver='lbfgs'`, `max_iter=300`) on the fused matrix.
+3. **Same head.** Multinomial Logistic Regression (`C=1.0`, `solver='liblinear'`, `max_iter=1000`, `class_weight='balanced'`) on the fused matrix.
 
 ## Results
 

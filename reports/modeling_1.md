@@ -18,7 +18,7 @@ Stratification preserves the 27-class distribution including the long tail (smal
 
 1. Concatenate `designation + description`, lower-case. Missing description (35% per EDA) replaced with empty string.
 2. TF-IDF vectorise with 1-2 grams, `max_features=20,000`, `min_df=3`. Result: 19,200 x 20,000 sparse matrix.
-3. Multinomial Logistic Regression with `solver='lbfgs'`, `C=1.0`, `max_iter=300`.
+3. Multinomial Logistic Regression with `solver='liblinear'`, `C=1.0`, `max_iter=1000`, `class_weight='balanced'`.
 
 ## Results
 
@@ -36,7 +36,7 @@ Product `designation` is highly discriminative for category: the brand or model 
 ## Configuration details
 
 - Vectoriser: `TfidfVectorizer(ngram_range=(1, 2), max_features=20000, min_df=3)`
-- Classifier: `LogisticRegression(C=1.0, max_iter=300, solver='lbfgs')`
+- Classifier: `LogisticRegression(C=1.0, max_iter=1000, solver='liblinear', class_weight='balanced')`
 - Random seed: `random_state=42` for the split
 - Stratified split: `train_test_split(..., stratify=df['target'], random_state=42)` applied twice (test, then val from train)
 
